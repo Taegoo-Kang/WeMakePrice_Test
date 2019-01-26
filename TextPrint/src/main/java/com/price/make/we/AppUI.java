@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.price.make.we.dto.ParameterDto;
@@ -30,6 +32,8 @@ import com.vaadin.ui.VerticalLayout;
 @SpringUI(path="/")
 public class AppUI extends UI {
 	private static final long serialVersionUID = -6099580473148096393L;
+	
+	private static final Logger LOGGER = LogManager.getLogger(AppUI.class);
 	
 	@Autowired
 	private TextService textService;
@@ -132,7 +136,12 @@ public class AppUI extends UI {
 		btnPrint = new Button("출력", event -> {
 			
 			String url = tfUrl.getValue();
+			Type type = cboType.getValue();
 			String bind = tfBind.getValue();
+			
+			LOGGER.info("URL:: " + url);
+			LOGGER.info("TYPE:: " + type);
+			LOGGER.info("BIND:: " + bind);
 			
 			if(url == null || url.isEmpty()) {
 				Notification.show("URL을 입력해주세요.", Notification.Type.WARNING_MESSAGE);
@@ -152,7 +161,7 @@ public class AppUI extends UI {
 			
 			ParameterDto param = new ParameterDto();
 			param.setUrl(url);
-			param.setType(cboType.getValue());
+			param.setType(type);
 			param.setBind(Integer.valueOf(bind));
 			
 			try {
@@ -170,12 +179,12 @@ public class AppUI extends UI {
 				taRemain.setValue(result.getRemainder());
 				
 			} catch(MalformedURLException e) {
-				e.printStackTrace();
+				LOGGER.error(e);
 				Notification.show("URL을 정확히 입력해주세요.", Notification.Type.WARNING_MESSAGE);
 				tfUrl.focus();
 				
 			} catch (Exception e) {
-				e.printStackTrace();
+				LOGGER.error(e);
 			}
 		});
 		btnPrint.setClickShortcut(KeyCode.ENTER, null);

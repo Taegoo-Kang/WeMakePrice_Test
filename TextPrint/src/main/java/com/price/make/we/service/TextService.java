@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import com.price.make.we.dto.ParameterDto;
@@ -18,6 +20,8 @@ import com.price.make.we.dto.ResultDto;
 
 @Service
 public class TextService {
+	
+	private static final Logger LOGGER = LogManager.getLogger(TextService.class);
 	
 	public static String HTML_REG = "<(/)?([a-zA-Z]*)(\\s[a-zA-Z]*=[^>]*)?(\\s)*(/)?>";
 	public static String NUMBER_ALPHABET_REG = "[^a-zA-Z0-9]";
@@ -39,6 +43,8 @@ public class TextService {
 			break;
 		}
 		
+		LOGGER.debug("Number % Alphabet:: " + text);
+		
 //		String regText = getReplacedTextByRegex(text, NUMBER_ALPHABET_REG);
 		List<String> alphabets = getSortedListByRegex(text, ALPHABET_REG);
 		List<String> numbers = getSortedListByRegex(text, NUMBER_REG);
@@ -55,6 +61,8 @@ public class TextService {
 	 * @throws Exception
 	 */
 	public String getHtmlSrcFromUrl(String path) throws Exception {
+		
+		LOGGER.info("URL Path:: " + path);
 		
 		URL url = new URL(path);
 		HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -97,6 +105,8 @@ public class TextService {
 						return compareTo;
 					}
 				});
+		
+		LOGGER.debug("Sorted:: " + result);
 		
 		return result;
 	}
@@ -154,6 +164,8 @@ public class TextService {
 		ResultDto result = new ResultDto();
 		result.setQuotient(quotStrs);
 		result.setRemainder(remainStr);
+		
+		LOGGER.debug("Result:: " + result.toString());
 		
 		return result;
 	}
