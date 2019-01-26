@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Built-By: Taegoo
+Build-Jdk: 10.0.2
+Implementation-Title: TextPrint
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.price.make.we
+Implementation-URL: http://maven.apache.org
+Created-By: Maven Integration for Eclipse
+
